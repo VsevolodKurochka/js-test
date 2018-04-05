@@ -4,6 +4,7 @@ class Test extends Component {
   constructor(){
     super();
     this.state = {
+      title: 'Проверка знаний таблицы умножения',
       quiz: [
         {
           question: '4x3=?',
@@ -26,7 +27,8 @@ class Test extends Component {
   render() {
     return (
       <div className="Test">
-        <form className="quiz">
+        <h1 className="mb-5">{this.state.title}</h1>
+        <form className="quiz" action="" method="">
           {
             this.state.quiz.map( (item, i) => {
               return(
@@ -35,10 +37,11 @@ class Test extends Component {
                   <div className="quiz__item-options">
                     {
                       item.answers.map( (option, option_i) => {
+                        let value = `quiz-group-${i}-option-${option_i}`;
                         return(
-                          <p className="quiz__item-option" key={`quiz-group-${i}-option-${option_i}`}>
-                            <input type="radio" name={`quiz[${i}]`} id={`quiz-group-${i}-option-${option_i}`} />
-                            <label>{option}</label>
+                          <p className="quiz__item-option" key={value}>
+                            <input type="radio" name={`quiz[${i}]`} id={value} />
+                            <label for={value}>{option}</label>
                           </p>
                         )
                       })
@@ -48,7 +51,7 @@ class Test extends Component {
               )
             })
           }
-          <button type="button" className="btn btn-primary">Подтвердить</button>
+          <button type="submit" className="btn btn-primary">Подтвердить</button>
         </form>
       </div>
     );
