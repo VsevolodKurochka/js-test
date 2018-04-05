@@ -1,0 +1,13 @@
+.quiz__item:not(:last-child){
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+}
+
+.quiz__item-option:not(:last-child){
+	margin-right: 15px;
+}
+
+.quiz__item-option input{
+	margin-right: 5px;
+}
