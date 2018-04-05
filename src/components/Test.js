@@ -28,30 +28,35 @@ class Test extends Component {
     return (
       <div className="Test">
         <h1 className="mb-5">{this.state.title}</h1>
-        <form className="quiz" action="" method="">
-          {
-            this.state.quiz.map( (item, i) => {
-              return(
-                <div className="quiz__item" key={'quiz-' + i}>
-                  <h4>{item.question}</h4>
-                  <div className="quiz__item-options">
-                    {
-                      item.answers.map( (option, option_i) => {
-                        let value = `quiz-group-${i}-option-${option_i}`;
-                        return(
-                          <p className="quiz__item-option" key={value}>
-                            <input type="radio" name={`quiz[${i}]`} id={value} />
-                            <label for={value}>{option}</label>
-                          </p>
-                        )
-                      })
-                    }
+        <form className="quiz" action="" method="POST">
+          <div className="quiz__content">
+            {
+              this.state.quiz.map( (item, i) => {
+                return(
+                  <div className="quiz__item" key={'quiz-' + i}>
+                    <h4>{item.question}</h4>
+                    <div className="quiz__item-options">
+                      {
+                        item.answers.map( (option, option_i) => {
+                          let value = `quiz-group-${i}-option-${option_i}`;
+                          return(
+                            <p className="quiz__item-option" key={value}>
+                              <input type="radio" name={`quiz[${i}]`} id={value} value={option}/>
+                              <label htmlFor={value}>{option}</label>
+                            </p>
+                          )
+                        })
+                      }
+                    </div>
                   </div>
-                </div>
-              )
-            })
-          }
-          <button type="submit" className="btn btn-primary">Подтвердить</button>
+                )
+              })
+            }
+          </div>
+          <div className="quiz__footer">
+             <button type="button" className="btn btn-info mr-3">Следующее задание</button>
+              <button type="submit" className="btn btn-success">Подтвердить</button>
+          </div>
         </form>
       </div>
     );
