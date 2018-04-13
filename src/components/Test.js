@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import ConsoleDivider from './ConsoleDivider';
 import './Test.css';
+
 class Test extends Component {
 	constructor(){
 		super();
 
 		this.state = {
 			title: 'Проверка знаний таблицы умножения',
+			buttonText: 'Закончить тест',
 			quiz: [
 				{
 					question: '4x3=?',
@@ -24,7 +27,8 @@ class Test extends Component {
 				}
 			],
 			quizAnswers: [],
-			correctAnswers: []
+			correctAnswers: [],
+			amountCorrectAnswers: 0
 		}
 
 	}
@@ -32,33 +36,28 @@ class Test extends Component {
 	quizSubmit = (e) => {
 		e.preventDefault();
 
-		let amountCorrectAnswers = 0;
-
 		for (let answer_user in this.state.quizAnswers){
 			//console.log(`User Answers: ${this.state.quizAnswers[answer_user]}`);
 			console.log( `Ответы пользователя: ${this.state.quizAnswers[answer_user]}` );
 
 		}
 
-		console.log('--------------------------');
+		ConsoleDivider();
 
 		this.state.quiz.map( (question, i) => {
 			
 			let numberCorrectAnswer = question.answer;
-
 			let answers = question.answers;
 
 			console.log(`Правильные ответы на вопросы: ${answers[numberCorrectAnswer]}`);
 
-			//if(answers[numberCorrectAnswer])
-
-			
-
 			for (let answerUser in this.state.quizAnswers){
 
-				if(this.state.quizAnswers[answerUser] == answers[numberCorrectAnswer]){
+				if(this.state.quizAnswers[answerUser] === answers[numberCorrectAnswer].toString()){
 
-					amountCorrectAnswers++;
+					this.setState({
+						amountCorrectAnswers: this.state.amountCorrectAnswers + 1
+					});
 					
 				}
 
@@ -66,16 +65,9 @@ class Test extends Component {
 
 		});
 
-		console.log(`Вы правильно ответили на ${amountCorrectAnswers} вопроса.`);
+		ConsoleDivider();
 
-		// for(let answer_correct in this.state.quiz){
-		// 	let answers = this.state.quiz[answer_correct].answers;
-		// 	let number = this.state.quiz[answer_correct].answer;
-			
-		// 	console.log(`Правильные ответы на вопросы: ${answers[number]}`);
-		// }
-
-
+		console.log(`Количество правильных ответов: ${this.state.amountCorrectAnswers}`);
 		
 	}
 
@@ -98,7 +90,7 @@ class Test extends Component {
 							this.state.quiz.map( (item, i) => {
 								return(
 									<div className="quiz__item" key={'quiz-' + i}>
-										<h4>{`№${i}: ${item.question}`}</h4>
+										<h4>{item.question}</h4>
 										<div className="quiz__item-options">
 											{
 												item.answers.map( (option, answer_i) => {
@@ -123,7 +115,7 @@ class Test extends Component {
 						}
 					</div>
 					<div className="quiz__footer">
-							<button type="submit" className="btn btn-success">Подтвердить</button>
+						<button type="submit" className="btn btn-success">{this.state.buttonText}</button>
 					</div>
 				</form>
 			</div>
