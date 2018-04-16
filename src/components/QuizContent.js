@@ -18,6 +18,7 @@ class QuizContent extends Component {
 												id={`group-${i}-quiz-${answer_i}`} 
 												value={option} 
 												onChange={this.props.radioChange}
+												required="required"
 												/>
 											<label htmlFor={`group-${i}-quiz-${answer_i}`}>{option}</label>
 										</p>

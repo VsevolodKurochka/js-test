@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-
-import ConsoleDivider from './ConsoleDivider';
 import QuizContent from './QuizContent';
 import QuizModal from './QuizModal';
 
@@ -33,7 +31,6 @@ class Test extends Component {
 				}
 			],
 			quizAnswers: [],
-			correctAnswers: [],
 			amountCorrectAnswers: 0,
 			modal: false
 		}
@@ -48,47 +45,32 @@ class Test extends Component {
     });
   }
 
-  // showUserAnswers(){
-  // 	Object.keys(this.state.quizAnswers).map( (answerUser, i) => {
-  // 		return(
-  // 			<p>Ответы пользователя: {this.state.quizAnswers[answerUser]}</p>
-  // 		)
-  // 	});
-  // }
-
 	quizSubmit = (e) => {
 		e.preventDefault();
 
-		// for (let answer_user in this.state.quizAnswers){
-		// 	//console.log( `Ответы пользователя: ${this.state.quizAnswers[answer_user]}` );
-		// }
-
-		ConsoleDivider();
+		let amountCorrectAnswers = 0;
 
 		this.state.quiz.map( (question, i) => {
 			
 			let numberCorrectAnswer = question.answer;
 			let answers = question.answers;
-
-			//console.log(`Правильные ответы на вопросы: ${answers[numberCorrectAnswer]}`);
+			
 
 			for (let answerUser in this.state.quizAnswers){
 
-				if(this.state.quizAnswers[answerUser] === answers[numberCorrectAnswer].toString()){
+				if(this.state.quizAnswers[answerUser] === answers[numberCorrectAnswer].toString() ){
 
-					this.setState({
-						amountCorrectAnswers: this.state.amountCorrectAnswers + 1
-					});
-					
+					amountCorrectAnswers = amountCorrectAnswers + 1;
+
 				}
 
 			}
 
+			this.setState({
+				amountCorrectAnswers: amountCorrectAnswers
+			});
+
 		});
-
-		ConsoleDivider();
-
-		console.log(`Количество правильных ответов: ${this.state.amountCorrectAnswers}`);
 
 		this.toggleModal();
 		
@@ -108,8 +90,15 @@ class Test extends Component {
 				<h1 className="mb-5">{this.state.title}</h1>
 				<form className="quiz" onSubmit={this.quizSubmit} id="quiz">
 					<div className="quiz__content">
-						<QuizContent content={this.state.quiz} radioChange={this.radioChange} />
-						{ <QuizModal quizIsOpen={this.state.modal} userAnswers={this.state.quizAnswers} toggle={this.toggleModal} /> }
+						<QuizContent 
+							content={this.state.quiz} 
+							radioChange={this.radioChange} />
+						<QuizModal 
+							quizIsOpen={this.state.modal} 
+							userAnswers={this.state.quizAnswers} 
+							amountCorrectAnswers={this.state.amountCorrectAnswers} 
+							quiz={this.state.quiz}
+							toggle={this.toggleModal} />
 					</div>
 					<div className="quiz__footer">
 						<button type="submit" className="btn btn-success">{this.state.buttonText}</button>
